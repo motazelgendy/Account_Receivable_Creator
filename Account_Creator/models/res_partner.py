@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-
 from odoo import models, fields, api
 
 
-class account_creator(models.Model):
+class partner_account_mapper(models.Model):
     _inherit = 'res.partner'
 
     def _compute_account_code(self, account_type):
