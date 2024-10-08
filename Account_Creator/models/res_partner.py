@@ -5,20 +5,15 @@ class partner_account_mapper(models.Model):
     _inherit = 'res.partner'
 
     def _compute_account_code(self, account_type):
-        max_code = self.env['account.account'].search(
-            [('account_type', '=', account_type)],
-            order='code desc',
-            limit=1
-        ).mapped('code')
-
-        if max_code[0] in self.env['account.account'].search([('id','!=',False)]).mapped('code'):
-            arr = list(str(max_code[0]))
-            for num in range(2):
-                arr.insert(2,'0')
-                account_code = ''.join(arr)
-        else:
-            account_code = str(int(max_code[0])+1)
-        return account_code
+       chart_code = self.env['account.account'].search([('account_type','=',account_type)]).mapped('code')
+       account_code = max([eval(code) for code in chart_code]) + 1
+       print(account_code)
+       if str(account_code) in self.env['account.account'].search([('id','!=',False)]).mapped('code'):
+            arr = list(str(account_code))
+            for i in range(1):
+                 arr.insert(5,'0')
+            account_code = ''.join(arr)
+       return  str(account_code)
 
     @api.model
     def create(self, vals):
